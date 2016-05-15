@@ -1,6 +1,15 @@
 require 'bundler/gem_tasks'
 require 'rake/testtask'
 
+if RUBY_ENGINE == 'jruby'
+  require 'rake/javaextensiontask'
+
+  Rake::JavaExtensionTask.new('did_you_mean') do |ext|
+    ext.name    = "binding_capturer"
+    ext.lib_dir = "lib/did_you_mean"
+  end
+end
+
 Rake::TestTask.new do |task|
   task.libs << "test"
 
@@ -10,6 +19,7 @@ Rake::TestTask.new do |task|
 
   task.verbose = true
   task.warning = true
+  task.ruby_opts << '--debug' if RUBY_ENGINE == 'jruby'
 end
 
 Rake::TestTask.new("test:verbose_formatter") do |task|
@@ -17,6 +27,7 @@ Rake::TestTask.new("test:verbose_formatter") do |task|
   task.pattern = 'test/verbose_formatter_test.rb'
   task.verbose = true
   task.warning = true
+  task.ruby_opts << '--debug' if RUBY_ENGINE == 'jruby'
   task.ruby_opts << "-rdid_you_mean/verbose_formatter"
 end
 
@@ -25,6 +36,7 @@ Rake::TestTask.new("test:experimental") do |task|
   task.pattern = 'test/experimental/**/*_test.rb'
   task.verbose = true
   task.warning = true
+  task.ruby_opts << '--debug' if RUBY_ENGINE == 'jruby'
   task.ruby_opts << "-rdid_you_mean/experimental"
 end
 
