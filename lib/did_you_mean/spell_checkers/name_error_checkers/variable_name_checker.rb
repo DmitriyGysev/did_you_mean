@@ -4,6 +4,11 @@ module DidYouMean
   class VariableNameChecker
     attr_reader :name, :method_names, :lvar_names, :ivar_names, :cvar_names
 
+    NAMES_TO_EXCLUDE = {
+      'foo' => [:fork]
+    }
+    NAMES_TO_EXCLUDE.default = []
+
     def initialize(exception)
       @name       = exception.name.to_s.tr("@", "")
       @lvar_names = exception.local_variables
@@ -18,7 +23,7 @@ module DidYouMean
     def corrections
       @corrections ||= SpellChecker
                      .new(dictionary: (lvar_names + method_names + ivar_names + cvar_names))
-                     .correct(name)
+                     .correct(name) - NAMES_TO_EXCLUDE[@name]
     end
   end
 end

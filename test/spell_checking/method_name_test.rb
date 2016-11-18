@@ -71,4 +71,9 @@ class MethodNameTest < Minitest::Test
     assert_correction :raise, error.corrections
     assert_match "Did you mean?  raise", error.to_s
   end
+
+  def test_exclude_typical_incorrect_suggestions
+    error = assert_raises(NoMethodError){ nil.map }
+    assert_empty error.corrections
+  end
 end
