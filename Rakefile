@@ -40,12 +40,7 @@ Rake::TestTask.new("test:experimental") do |task|
   task.ruby_opts << "-rdid_you_mean/experimental"
 end
 
-if RUBY_ENGINE != 'jruby'
-  task default: %i(test test:verbose_formatter test:experimental)
-else
-  task default: %i(test test:verbose_formatter)
-end
-
+task default: %i(test test:verbose_formatter test:experimental)
 
 namespace :test do
   namespace :accuracy do
