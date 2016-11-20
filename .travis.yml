@@ -13,8 +13,10 @@ after_success:
 rvm:
   - 2.3.1
   - ruby-head
+  - jruby-9.1.6.0
   - jruby-head
 
 matrix:
   allow_failures:
+    - rvm: jruby-9.1.6.0
     - rvm: jruby-head
