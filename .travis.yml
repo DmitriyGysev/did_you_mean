@@ -6,6 +6,9 @@ sudo:     false
 before_install:
   - gem install bundler
 
+before_script:
+  - gem uninstall did_you_mean -a
+
 after_success:
   - bundle exec rake test:accuracy
   - bundle exec rake benchmark:memory
